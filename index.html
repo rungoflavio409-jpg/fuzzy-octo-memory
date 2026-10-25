@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111714">
+<title>PULSEFIT — Train your way</title>
+<style>
+:root{--bg:#0d120f;--panel:#151d18;--panel2:#1b2620;--line:#2a382f;--text:#f2f6f1;--muted:#a4b2a8;--lime:#b8f36b;--lime2:#d7ffa5;--orange:#ffb46b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 90% -10%,#243b2a 0,transparent 40%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+button{font:inherit;cursor:pointer} .app{max-width:520px;margin:0 auto;min-height:100vh;padding:20px 16px 100px}
+header{display:flex;align-items:center;justify-content:space-between;padding:5px 0 22px}.brand{display:flex;gap:10px;align-items:center;font-weight:900;letter-spacing:.12em}.mark{width:36px;height:36px;background:var(--lime);border-radius:12px;display:grid;place-items:center;color:#14200f;font-size:20px;font-weight:1000}.pill{font-size:11px;color:var(--lime);border:1px solid #42533c;border-radius:20px;padding:5px 9px;letter-spacing:.08em}
+h1{font-size:35px;line-height:1.08;letter-spacing:-.04em;margin:8px 0 12px}h1 span{color:var(--lime)}h2{font-size:20px;margin:0 0 12px;letter-spacing:-.02em}h3{font-size:15px;margin:0 0 5px}.muted{color:var(--muted)}.eyebrow{color:var(--lime);font-size:11px;letter-spacing:.15em;font-weight:800;text-transform:uppercase}
+.hero{background:linear-gradient(135deg,#24392a,#152119 65%);border:1px solid #344b37;border-radius:24px;padding:23px;position:relative;overflow:hidden}.hero:after{content:"PF";position:absolute;right:-9px;bottom:-45px;font-size:130px;font-weight:1000;color:#ffffff08;letter-spacing:-.1em}.hero p{max-width:290px;color:#c1cec4;margin:0 0 20px}.btn{border:0;border-radius:13px;background:var(--lime);color:#14200f;font-weight:850;padding:12px 16px}.btn.secondary{background:#29372e;color:var(--text);border:1px solid #3a4b3f}.btn.full{width:100%}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0 25px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px 10px}.stat b{display:block;font-size:21px}.stat span{font-size:11px;color:var(--muted)}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:23px 0 12px}.text-btn{color:var(--lime);background:none;border:0;font-size:12px;font-weight:750}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:15px}.card-icon{width:38px;height:38px;border-radius:12px;background:#2a3a2d;display:grid;place-items:center;font-size:21px;margin-bottom:12px}.card p{font-size:12px;color:var(--muted);margin:4px 0 13px}.mini-link{color:var(--lime);font-size:12px;font-weight:800}
+.workout{background:var(--panel);border:1px solid var(--line);border-radius:18px;margin:10px 0;overflow:hidden}.workout-top{padding:15px;display:flex;align-items:center;gap:12px}.day{width:43px;height:43px;border-radius:12px;background:#2c3c30;display:grid;place-items:center;color:var(--lime);font-weight:900}.workout-top .meta{flex:1}.workout-top small{color:var(--muted)}.workout-top button{background:#29372e;border:1px solid #3b4b3e;color:var(--lime);border-radius:10px;padding:8px 10px}.exercise-list{padding:0 15px 15px;display:none}.workout.open .exercise-list{display:block}.exercise{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line)}.exercise small{display:block;color:var(--muted)}.exercise b{font-size:13px}.sets{white-space:nowrap;color:var(--lime);font-size:12px}
+.tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:#111813ed;border-top:1px solid var(--line);padding:10px 10px calc(10px + env(safe-area-inset-bottom));backdrop-filter:blur(18px);z-index:5}.tab{border:0;background:transparent;color:#91a096;border-radius:12px;padding:8px 3px;font-size:10px;font-weight:750}.tab span{display:block;font-size:19px;margin-bottom:2px}.tab.active{background:#27382a;color:var(--lime)}
+.page{display:none}.page.active{display:block}.notice{border:1px solid #53432e;background:#2a2118;color:#f2d4b1;border-radius:14px;padding:12px;font-size:12px;margin-top:14px}
+.toggle-row{display:flex;gap:8px;margin:14px 0}.toggle{flex:1;border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:11px;border-radius:12px;font-weight:800}.toggle.active{background:var(--lime);color:#15200f;border-color:var(--lime)}
+.progress-box{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:12px}.checkline{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}.checkline:last-child{border-bottom:0}.checkline input{accent-color:var(--lime);width:18px;height:18px}.checkline label{flex:1}.checkline small{color:var(--muted)}.bar{height:8px;background:#2a352d;border-radius:20px;overflow:hidden;margin:10px 0}.bar div{height:100%;width:0;background:var(--lime);transition:width .2s}.field{width:100%;background:#101712;border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--text);margin:6px 0 12px}.food-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.food{background:var(--panel);border:1px solid var(--line);padding:14px;border-radius:16px}.food .emoji{font-size:22px;margin-bottom:7px}.food p{margin:4px 0 0;color:var(--muted);font-size:12px}
+footer{text-align:center;color:#718076;font-size:11px;margin-top:26px}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand"><div class="mark">P</div><span>PULSEFIT</span></div><span class="pill">YOUR DAILY EDGE</span></header>
+
+<section class="page active" id="home">
+  <div class="hero"><div class="eyebrow">Build good habits</div><h1>Train your way.<br><span>Grow every day.</span></h1><p>Προπόνηση στο γυμναστήριο ή στο σπίτι, μικρά βήματα και σταθερή πρόοδος.</p><button class="btn" onclick="go('workouts')">Βρες προπόνηση ↗</button></div>
+  <div class="stats"><div class="stat"><b id="sessionsStat">0</b><span>Προπονήσεις</span></div><div class="stat"><b id="daysStat">0</b><span>Ημέρες συνέπειας</span></div><div class="stat"><b>2</b><span>Επιλογές χώρου</span></div></div>
+  <div class="section-head"><h2>Διάλεξε το πλάνο σου</h2></div>
+  <div class="cards">
+    <div class="card"><div class="card-icon">🏋️</div><h3>Gym mode</h3><p>Ασκήσεις με μηχανήματα και βάρη.</p><button class="text-btn" onclick="setMode('gym');go('workouts')">Άνοιγμα →</button></div>
+    <div class="card"><div class="card-icon">🏠</div><h3>Home mode</h3><p>Προπόνηση με βάρος σώματος.</p><button class="text-btn" onclick="setMode('home');go('workouts')">Άνοιγμα →</button></div>
+    <div class="card"><div class="card-icon">🥗</div><h3>Fuel guide</h3><p>Ισορροπημένες ιδέες για γεύματα.</p><button class="text-btn" onclick="go('nutrition')">Δες οδηγό →</button></div>
+    <div class="card"><div class="card-icon">📈</div><h3>Η πρόοδός μου</h3><p>Σημείωσε τις προπονήσεις σου.</p><button class="text-btn" onclick="go('progress')">Παρακολούθηση →</button></div>
+  </div>
+  <div class="notice">Ξεκίνα με σωστή τεχνική και βάρος που ελέγχεις. Η ξεκούραση είναι μέρος της προόδου.</div>
+</section>
+
+<section class="page" id="workouts">
+  <div class="eyebrow">Training library</div><h1>Choose your<br><span>session.</span></h1><p class="muted">Επίλεξε χώρο και άνοιξε μια προπόνηση για να δεις τις ασκήσεις.</p>
+  <div class="toggle-row"><button id="gymBtn" class="toggle active" onclick="setMode('gym')">🏋️ Γυμναστήριο</button><button id="homeBtn" class="toggle" onclick="setMode('home')">🏠 Σπίτι</button></div>
+  <div id="gymWorkouts">
+    <div class="workout"><div class="workout-top"><div class="day">A</div><div class="meta"><h3>Full body — αρχάριοι</h3><small>35–45 λεπτά · όλο το σώμα</small></div><button onclick="toggleWorkout(this)">Προβολή +</button></div><div class="exercise-list">
+      <div class="exercise"><div><b>Leg press ή κάθισμα σε πάγκο</b><small>Ελεγχόμενη κίνηση</small></div><span class="sets">2 × 8–12</span></div>
+      <div class="exercise"><div><b>Chest press machine</b><small>Χωρίς πόνο, ώμοι σταθεροί</small></div><span class="sets">2 × 8–12</span></div>
+      <div class="exercise"><div><b>Seated row</b><small>Τράβα χωρίς να κουνάς τον κορμό</small></div><span class="sets">2 × 8–12</span></div>
+      <div class="exercise"><div><b>Lat pulldown</b><small>Μπάρα προς το πάνω μέρος του στήθους</small></div><span class="sets">2 × 8–12</span></div>
+      <div class="exercise"><div><b>Glute bridge ή hip hinge με ελαφρύ βάρος</b><small>Μόνο αν η τεχνική είναι άνετη</small></div><span class="sets">2 × 10</span></div>
+    </div></div>
+    <div class="workout"><div class="workout-top"><div class="day">B</div><div class="meta"><h3>Upper body</h3><small>30–40 λεπτά · πάνω μέρος</small></div><button onclick="toggleWorkout(this)">Προβολή +</button></div><div class="exercise-list">
+      <div class="exercise"><div><b>Chest press machine</b><small>Ελεγχόμενη επανάληψη</small></div><span class="sets">2 × 8–12</span></div>
+      <div class="exercise"><div><b>Seated row</b><small>Σταθερός κορμός</small></div><span class="sets">2 × 8–12</span></div>
+      <div class="exercise"><div><b>Shoulder press machine</b><small>Ελαφρύ, άνετο εύρος</small></div><span class="sets">2 × 8–12</span></div>
+      <div class="exercise"><div><b>Biceps curl machine</b><small>Χωρίς φόρα</small></div><span class="sets">2 × 10–12</span></div>
+      <div class="exercise"><div><b>Triceps cable pushdown</b><small>Αγκώνες κοντά στον κορμό</small></div><span class="sets">2 × 10–12</span></div>
+    </div></div>
+    <div class="workout"><div class="workout-top"><div class="day">C</div><div class="meta"><h3>Cardio & mobility</h3><small>20–30 λεπτά · ήπια μέρα</small></div><button onclick="toggleWorkout(this)">Προβολή +</button></div><div class="exercise-list">
+      <div class="exercise"><div><b>Διάδρομος ή ποδήλατο</b><small>Ρυθμός που επιτρέπει να μιλάς</small></div><span class="sets">10–20′</span></div>
+      <div class="exercise"><div><b>Ήπιες κινήσεις ώμων και ισχίων</b><small>Χωρίς πίεση ή αναπηδήσεις</small></div><span class="sets">5′</span></div>
+      <div class="exercise"><div><b>Χαλαρό περπάτημα</b><small>Προαιρετικά</small></div><span class="sets">5′</span></div>
+    </div></div>
+  </div>
+  <div id="homeWorkouts" style="display:none">
+    <div class="workout"><div class="workout-top"><div class="day">A</div><div class="meta"><h3>Full body στο σπίτι</h3><small>20–30 λεπτά · χωρίς εξοπλισμό</small></div><button onclick="toggleWorkout(this)">Προβολή +</button></div><div class="exercise-list">
+      <div class="exercise"><div><b>Κάθισμα σε καρέκλα</b><small>Άγγιξε απαλά και ανέβα</small></div><span class="sets">2 × 8–12</span></div>
+      <div class="exercise"><div><b>Push-ups σε τοίχο ή πάγκο</b><small>Διάλεξε εύκολη παραλλαγή</small></div><span class="sets">2 × 6–12</span></div>
+      <div class="exercise"><div><b>Glute bridge</b><small>Κίνηση χωρίς υπερέκταση μέσης</small></div><span class="sets">2 × 10</span></div>
+      <div class="exercise"><div><b>Bird-dog</b><small>Αργά και ελεγχόμενα</small></div><span class="sets">2 × 6/πλευρά</span></div>
+      <div class="exercise"><div><b>March in place</b><small>Άνετος ρυθμός</small></div><span class="sets">2 × 45″</span></div>
+    </div></div>
+    <div class="workout"><div class="workout-top"><div class="day">B</div><div class="meta"><h3>Κίνηση & αντοχή</h3><small>15–25 λεπτά · ήπια ένταση</small></div><button onclick="toggleWorkout(this)">Προβολή +</button></div><div class="exercise-list">
+      <div class="exercise"><div><b>Περπάτημα επιτόπου</b><small>Ζέσταμα</small></div><span class="sets">3′</span></div>
+      <div class="exercise"><div><b>Step touch</b><small>Βήμα δεξιά-αριστερά</small></div><span class="sets">3 × 45″</span></div>
+      <div class="exercise"><div><b>Wall push-ups</b><small>Κορμός σε ευθεία</small></div><span class="sets">2 × 8–12</span></div>
+      <div class="exercise"><div><b>Bird-dog</b><small>Σταθερή μέση</small></div><span class="sets">2 × 6/πλευρά</span></div>
+      <div class="exercise"><div><b>Χαλαρό περπάτημα</b><small>Αποθεραπεία</small></div><span class="sets">5′</span></div>
+    </div></div>
+  </div>
+  <div class="notice">Τα παραπάνω είναι γενικά παραδείγματα, όχι εξατομικευμένο ιατρικό πρόγραμμα. Σταμάτα αν νιώσεις πόνο ή ζάλη και ζήτησε καθοδήγηση από γυμναστή/επαγγελματία υγείας όπου χρειάζεται.</div>
+</section>
+
+<section class="page" id="nutrition">
+  <div class="eyebrow">Everyday fuel</div><h1>Fuel your<br><span>training.</span></h1><p class="muted">Απλές ιδέες για ισορροπημένα γεύματα — χωρίς ακραίες δίαιτες ή απαγορεύσεις.</p>
+  <div class="section-head"><h2>Χτίσε ένα ισορροπημένο πιάτο</h2></div>
+  <div class="food-grid">
+    <div class="food"><div class="emoji">🍗</div><h3>Πρωτεΐνη</h3><p>Αυγά, γιαούρτι, ψάρι, κοτόπουλο, όσπρια ή τόφου.</p></div>
+    <div class="food"><div class="emoji">🍚</div><h3>Ενέργεια</h3><p>Ρύζι, πατάτες, ψωμί, βρώμη ή ζυμαρικά.</p></div>
+    <div class="food"><div class="emoji">🥦</div><h3>Χρώμα</h3><p>Λαχανικά και φρούτα με ποικιλία μέσα στην εβδομάδα.</p></div>
+    <div class="food"><div class="emoji">🥑</div><h3>Καλά λιπαρά</h3><p>Ελαιόλαδο, ξηροί καρποί, ταχίνι και αβοκάντο.</p></div>
+  </div>
+  <div class="section-head"><h2>Παράδειγμα ημέρας</h2></div>
+  <div class="progress-box">
+    <div class="exercise"><div><b>Πρωινό</b><small>Γιαούρτι με βρώμη και φρούτο</small></div><span>🌤️</span></div>
+    <div class="exercise"><div><b>Μεσημεριανό</b><small>Κοτόπουλο ή όσπρια, ρύζι/πατάτα και σαλάτα</small></div><span>🍽️</span></div>
+    <div class="exercise"><div><b>Σνακ</b><small>Φρούτο με ξηρούς καρπούς ή τοστ</small></div><span>🍎</span></div>
+    <div class="exercise"><div><b>Βραδινό</b><small>Ομελέτα ή άλλο γεύμα με πρωτεΐνη, ψωμί και λαχανικά</small></div><span>🌙</span></div>
+  </div>
+  <p class="muted" style="font-size:12px">Οι ανάγκες διαφέρουν ανάλογα με την ηλικία, την ανάπτυξη, τη δραστηριότητα και την υγεία. Δεν χρειάζεται να μετράς θερμίδες για να ξεκινήσεις να τρως ισορροπημένα. Για εξατομικευμένο πλάνο, συμβουλέψου διαιτολόγο.</p>
+</section>
+
+<section class="page" id="progress">
+  <div class="eyebrow">Your consistency</div><h1>Small steps.<br><span>Real progress.</span></h1><p class="muted">Κατέγραψε συνήθειες και προπονήσεις. Τα δεδομένα αποθηκεύονται σε αυτή τη συσκευή/browser.</p>
+  <div class="progress-box"><h2>Στόχοι για σήμερα</h2>
+    <div class="checkline"><input type="checkbox" class="habit" id="h1"><label for="h1">Έκανα την προπόνηση ή κινήθηκα</label><small>🏃</small></div>
+    <div class="checkline"><input type="checkbox" class="habit" id="h2"><label for="h2">Έφαγα τακτικά και ισορροπημένα</label><small>🥗</small></div>
+    <div class="checkline"><input type="checkbox" class="habit" id="h3"><label for="h3">Ήπια νερό μέσα στη μέρα</label><small>💧</small></div>
+    <div class="checkline"><input type="checkbox" class="habit" id="h4"><label for="h4">Έδωσα χρόνο για ξεκούραση</label><small>🌙</small></div>
+    <div class="bar"><div id="habitBar"></div></div><small id="habitText" class="muted">0 από 4 ολοκληρωμένα</small>
+  </div>
+  <div class="progress-box"><h2>Καταγραφή προπόνησης</h2><p class="muted" style="font-size:13px">Όταν ολοκληρώνεις μια προπόνηση, πάτησε παρακάτω.</p><button class="btn full" onclick="completeSession()">＋ Ολοκλήρωσα προπόνηση</button><p id="sessionMsg" class="muted" style="font-size:12px;margin-bottom:0"></p></div>
+  <button class="btn secondary full" onclick="resetProgress()">Επαναφορά καταγραφών</button>
+</section>
+<footer>PULSEFIT · Made for steady progress<br>Πρωτότυπο demo — όχι ιατρική ή διατροφική διάγνωση.</footer>
+</div>
+<nav class="tabs">
+<button class="tab active" data-page="home" onclick="go('home')"><span>⌂</span>Αρχική</button>
+<button class="tab" data-page="workouts" onclick="go('workouts')"><span>▤</span>Προπόνηση</button>
+<button class="tab" data-page="nutrition" onclick="go('nutrition')"><span>◉</span>Διατροφή</button>
+<button class="tab" data-page="progress" onclick="go('progress')"><span>↗</span>Πρόοδος</button>
+</nav>
+<script>
+let mode='gym';
+function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.page===id));window.scrollTo({top:0,behavior:'smooth'});}
+function setMode(m){mode=m;document.getElementById('gymWorkouts').style.display=m==='gym'?'block':'none';document.getElementById('homeWorkouts').style.display=m==='home'?'block':'none';document.getElementById('gymBtn').classList.toggle('active',m==='gym');document.getElementById('homeBtn').classList.toggle('active',m==='home');}
+function toggleWorkout(btn){const w=btn.closest('.workout');w.classList.toggle('open');btn.textContent=w.classList.contains('open')?'Κλείσιμο −':'Προβολή +';}
+function load(){let s=JSON.parse(localStorage.getItem('pulsefit')||'{"sessions":0,"habits":[false,false,false,false],"days":0}');document.getElementById('sessionsStat').textContent=s.sessions;document.getElementById('daysStat').textContent=s.days;document.getElementById('sessionMsg').textContent='Συνολικές προπονήσεις: '+s.sessions;document.querySelectorAll('.habit').forEach((el,i)=>el.checked=!!s.habits[i]);updateHabits(false);}
+function save(){let s=JSON.parse(localStorage.getItem('pulsefit')||'{"sessions":0,"habits":[false,false,false,false],"days":0}');s.habits=[...document.querySelectorAll('.habit')].map(e=>e.checked);if(s.habits.every(Boolean)&&!s.todayDone){s.days++;s.todayDone=true;}localStorage.setItem('pulsefit',JSON.stringify(s));document.getElementById('daysStat').textContent=s.days;}
+function updateHabits(shouldSave=true){let els=[...document.querySelectorAll('.habit')],n=els.filter(e=>e.checked).length;document.getElementById('habitBar').style.width=(n/4*100)+'%';document.getElementById('habitText').textContent=n+' από 4 ολοκληρωμένα';if(shouldSave)save();}
+document.querySelectorAll('.habit').forEach(e=>e.addEventListener('change',()=>updateHabits()));
+function completeSession(){let s=JSON.parse(localStorage.getItem('pulsefit')||'{"sessions":0,"habits":[false,false,false,false],"days":0}');s.sessions++;localStorage.setItem('pulsefit',JSON.stringify(s));document.getElementById('sessionsStat').textContent=s.sessions;document.getElementById('sessionMsg').textContent='Μπράβο! Συνολικές προπονήσεις: '+s.sessions;}
+function resetProgress(){if(confirm('Να διαγραφούν οι τοπικές καταγραφές;')){localStorage.removeItem('pulsefit');load();}}
+load();
+</script>
+</body>
+</html>
